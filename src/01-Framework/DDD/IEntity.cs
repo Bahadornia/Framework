@@ -1,5 +1,5 @@
 ﻿namespace App.Framework.DDD;
 
-public interface IEntity<T> where T : class
+public interface IEntity<T>
 {
 }
