@@ -4,7 +4,7 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<PackageId>App.Framework</PackageId>
+		<PackageId>App.Framework.Infra</PackageId>
 		<RootNamespace>App.Framework</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
@@ -12,11 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="DDD\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\02-Framework.Contracts\02-Framework.Contracts.csproj" />
+	  <PackageReference Include="App.Framework.Contracts" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

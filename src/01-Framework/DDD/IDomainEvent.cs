@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace App.Framework;
+namespace App.Framework.DDD;
 
-public interface IDomainEvent: INotification
+public interface IDomainEvent : INotification
 {
     Guid EventId => Guid.NewGuid();
     string EventType => GetType().AssemblyQualifiedName!;

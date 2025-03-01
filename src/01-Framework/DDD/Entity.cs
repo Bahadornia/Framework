@@ -1,4 +1,4 @@
-﻿namespace App.Framework;
+﻿namespace App.Framework.DDD;
 
 public class Entity<T> : IEntity<T>
     where T : class

@@ -1,4 +1,4 @@
-﻿namespace App.Framework;
+﻿namespace App.Framework.DDD;
 
 public class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     where TId : class
