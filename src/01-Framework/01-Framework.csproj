@@ -1,9 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Framework</RootNamespace>
+		<PackageIconUrl>./logo.png</PackageIconUrl>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="DDD\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\02-Framework.Contracts\02-Framework.Contracts.csproj" />
+	</ItemGroup>
 
 </Project>
