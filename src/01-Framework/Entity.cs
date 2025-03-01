@@ -1,4 +1,4 @@
-﻿namespace Framework;
+﻿namespace App.Framework;
 
 public class Entity<T> : IEntity<T>
     where T : class

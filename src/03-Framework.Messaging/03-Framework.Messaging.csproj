@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	  <TargetFramework>net9.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <PackageId>App.Framework.Messaging</PackageId>
+	  <RootNamespace>App.Framework.Messaging</RootNamespace>
+	  <Authors>Babak Bahadornia</Authors>
+	  <PackageIconUrl>./logo.png</PackageIconUrl>
+	  <Version>1.0.0</Version>
   </PropertyGroup>
 
 </Project>

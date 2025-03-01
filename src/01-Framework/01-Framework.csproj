@@ -4,7 +4,9 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<RootNamespace>Framework</RootNamespace>
+		<PackageId>App.Framework</PackageId>
+		<RootNamespace>App.Framework</RootNamespace>
+		<Authors>Babak Bahadornia</Authors>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
 		<Version>1.0.0</Version>
 	</PropertyGroup>

@@ -1,4 +1,4 @@
-﻿namespace Framework;
+﻿namespace App.Framework;
 
 public interface IAggregateRoot
 {

@@ -4,9 +4,9 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<PackageId>App.Framework.Contracts</PackageId>
+		<RootNamespace>App.Framework.Contracts</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
-		<PackageId>Framework.Contracts</PackageId>
-		<RootNamespace>Framework.Contracts</RootNamespace>
 		<Version>1.0.0</Version>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
 	</PropertyGroup>

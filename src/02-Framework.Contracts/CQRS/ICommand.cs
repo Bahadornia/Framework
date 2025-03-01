@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Framework.Contracts.CQRS;
+namespace App.Framework.Contracts.CQRS;
 
 /// <summary>
 /// Interface for MediatR commands with null response
