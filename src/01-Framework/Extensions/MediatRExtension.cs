@@ -14,8 +14,9 @@ public static class MediatRExtension
             cfg.RegisterServicesFromAssemblies(assemblies);
             cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-        });
-        services.AddValidatorsFromAssemblies(assemblies);
+        })
+        .AddSnowflakeService()
+        .AddValidatorsFromAssemblies(assemblies);
         return services;
     }
 }

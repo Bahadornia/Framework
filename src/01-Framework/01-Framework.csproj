@@ -8,7 +8,7 @@
 		<RootNamespace>App.Framework</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
-		<Version>1.0.7</Version>
+		<Version>1.0.8</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,6 +24,7 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+		<PackageReference Include="SnowflakeGenerator" Version="2.0.0" />
 	</ItemGroup>
 
 </Project>
