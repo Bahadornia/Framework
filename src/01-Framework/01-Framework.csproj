@@ -8,7 +8,7 @@
 		<RootNamespace>App.Framework</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,7 +16,6 @@
 	  <PackageReference Include="FluentValidation" Version="11.11.0" />
 	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
 	</ItemGroup>
 
 </Project>
