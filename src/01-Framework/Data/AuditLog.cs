@@ -4,6 +4,7 @@ namespace App.Framework.Contracts.Entities;
 
 public sealed class AuditLog: Entity
 {
+    public int Id { get; set; }
     public string EntityName { get; set; } = default!;
     public string CreatedBy { get; set; } = default!;
     public DateTime CreatedAt { get; set; }
