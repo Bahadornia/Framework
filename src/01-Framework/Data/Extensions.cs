@@ -19,7 +19,7 @@ public static class Extensions
     }
 
     
-    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddDbContextServices<T>(this IServiceCollection services, string connectionString)
         where T:DbContext
     {
         services.AddHttpContextAccessor();

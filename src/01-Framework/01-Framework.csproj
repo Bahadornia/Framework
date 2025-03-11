@@ -8,7 +8,7 @@
 		<RootNamespace>App.Framework</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
-		<Version>1.0.14</Version>
+		<Version>1.0.15</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
