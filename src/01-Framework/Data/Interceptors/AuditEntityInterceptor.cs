@@ -1,15 +1,32 @@
 ﻿using App.Framework.DDD;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Security.Claims;
 
 namespace App.Framework.Data.Interceptors;
 
 public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 {
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    public AuditEntityInterceptor(IHttpContextAccessor contextAccessor)
+    {
+        _contextAccessor = contextAccessor;
+    }
+
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
+        string userId = null;
 
+        if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
+        {
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
+        }
+        
+          userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+        
         var dbContext = eventData.Context;
         if (dbContext is not null)
         {
@@ -19,6 +36,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.CreatedBy = userId;
                 }
 
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnEntities())
@@ -28,6 +46,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                         entry.Entity.OldValue = (string)property.OriginalValue!;
                         entry.Entity.NewValue = (string)property.CurrentValue!;
                     }
+                    entry.Entity.LastModifiedBy = userId;
                     entry.Entity.LastModified = DateTime.UtcNow;
                 }
             }

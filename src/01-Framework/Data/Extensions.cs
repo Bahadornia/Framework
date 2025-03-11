@@ -1,5 +1,9 @@
-﻿using Mapster;
+﻿using App.Framework.Data.Interceptors;
+using Mapster;
 using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace App.Framework.Data;
@@ -11,6 +15,19 @@ public static class Extensions
         MapsterConfig.RegisterMapsterConfigurations();
         services.AddSingleton(TypeAdapterConfig.GlobalSettings);
         services.AddScoped<IMapper, ServiceMapper>();
+        return services;
+    }
+
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, string connectionString)
+        where T:DbContext
+    {
+        services.AddScoped<ISaveChangesInterceptor, AuditEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
+        services.AddDbContext<T>((sp, cfg) => 
+        {
+            cfg.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());   
+            cfg.UseSqlServer(connectionString);
+        });
         return services;
     }
 }
