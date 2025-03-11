@@ -18,9 +18,11 @@ public static class Extensions
         return services;
     }
 
+    
     public static IServiceCollection AddDbContext<T>(this IServiceCollection services, string connectionString)
         where T:DbContext
     {
+        services.AddHttpContextAccessor();
         services.AddScoped<ISaveChangesInterceptor, AuditEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
         services.AddDbContext<T>((sp, cfg) => 
