@@ -20,7 +20,7 @@ public static class Extensions
 
     
     public static IServiceCollection AddDbContextServices<T>(this IServiceCollection services, string connectionString)
-        where T:DbContext
+        where T:AppDbContext
     {
         services.AddHttpContextAccessor();
         services.AddScoped<ISaveChangesInterceptor, AuditEntityInterceptor>();

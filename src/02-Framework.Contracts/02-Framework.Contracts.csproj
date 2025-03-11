@@ -7,7 +7,7 @@
 		<PackageId>App.Framework.Contracts</PackageId>
 		<RootNamespace>App.Framework.Contracts</RootNamespace>
 		<Authors>Babak Bahadornia</Authors>
-		<Version>1.0.0</Version>
+		<Version>1.0.2</Version>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
 	</PropertyGroup>
 
