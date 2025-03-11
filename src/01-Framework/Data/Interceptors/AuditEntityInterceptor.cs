@@ -19,7 +19,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-
+        
         string userId = null;
         AuditLog auditLog = new();
 
@@ -30,13 +30,13 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
         userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
-        var dbContext = eventData.Context;
+        var dbContext = eventData.Context as AppDbContext;
         if (dbContext is not null)
         {
 
             foreach (var entry in dbContext.ChangeTracker.Entries<Entity>())
             {
-                if (entry.Entity is AuditLog)
+                if (entry.Entity is AuditLog || entry.Entity is not IAuditable)
                 {
                     continue;
                 }
@@ -60,12 +60,11 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                 }
             }
 
-            dbContext.Add(auditLog);
+            dbContext.AuditLogs.Add(auditLog);
         }
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
-
 }
 
 public static class Extensions
