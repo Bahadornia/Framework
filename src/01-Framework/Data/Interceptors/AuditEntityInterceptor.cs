@@ -11,16 +11,15 @@ namespace App.Framework.Data.Interceptors;
 public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 {
     private readonly IHttpContextAccessor _contextAccessor;
-    private readonly AppDbContext _appDbContext;
 
-    public AuditEntityInterceptor(IHttpContextAccessor contextAccessor, AppDbContext appDbContext)
+    public AuditEntityInterceptor(IHttpContextAccessor contextAccessor)
     {
         _contextAccessor = contextAccessor;
-        _appDbContext = appDbContext;
     }
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
+
         string userId = null;
         AuditLog auditLog = new();
 
@@ -61,9 +60,9 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                 }
             }
 
+            dbContext.Add(auditLog);
         }
 
-        _appDbContext.AuditLogs.Add(auditLog);
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
