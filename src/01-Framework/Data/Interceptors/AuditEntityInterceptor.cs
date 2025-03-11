@@ -4,17 +4,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace App.Framework.Data.Interceptors;
 
 public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 {
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ILogger<AuditEntityInterceptor> _logger;
 
-    public AuditEntityInterceptor(IHttpContextAccessor contextAccessor)
+    public AuditEntityInterceptor(IHttpContextAccessor contextAccessor, ILogger<AuditEntityInterceptor> logger)
     {
         _contextAccessor = contextAccessor;
+        _logger = logger;
     }
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -30,10 +34,12 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
         userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
-        var dbContext = eventData.Context as AppDbContext;
-        if (dbContext is not null)
+        var dbContext = eventData.Context;
+        if(dbContext is null)
         {
-
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
+        }
+        
             foreach (var entry in dbContext.ChangeTracker.Entries<Entity>())
             {
                 if (entry.Entity is AuditLog || entry.Entity is not IAuditable)
@@ -60,11 +66,11 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                 }
             }
 
-            dbContext.AuditLogs.Add(auditLog);
-        }
+           dbContext.Set<AuditLog>().Add(auditLog);
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
+
 }
 
 public static class Extensions
