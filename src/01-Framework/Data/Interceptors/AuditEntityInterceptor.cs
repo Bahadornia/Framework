@@ -24,7 +24,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         
-        string userId = null;
+        string userId = default!;
         AuditLog auditLog = new();
 
         //if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
