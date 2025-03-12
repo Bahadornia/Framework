@@ -11,7 +11,7 @@
 			<ContactEmail>babakbahadornia@gmail.com</ContactEmail>
 		</PackageMetadata>
 		<PackageIconUrl>./logo.png</PackageIconUrl>
-		<Version>1.0.28</Version>
+		<Version>1.0.29</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
