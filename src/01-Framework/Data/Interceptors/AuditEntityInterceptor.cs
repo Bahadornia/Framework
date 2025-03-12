@@ -24,7 +24,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         
-        string userId = default!;
+        string userId = "1";
         AuditLog auditLog = new();
 
         //if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
@@ -32,7 +32,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
         //    return base.SavingChangesAsync(eventData, result, cancellationToken);
         //}
 
-        userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value! ?? default!;
+        userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value! ?? "1";
 
         var dbContext = eventData.Context;
         if(dbContext is null)
