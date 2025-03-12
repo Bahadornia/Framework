@@ -53,7 +53,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
             if (primaryKey is not null)
             {
-                auditLog.EntityId = (string)entry.Property(primaryKey.Properties[0].Name).CurrentValue!;
+                auditLog.EntityId = entry.Property(primaryKey.Properties[0].Name).CurrentValue!.ToString();
             }
             else
             {
