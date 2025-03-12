@@ -23,7 +23,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-        
+
         string userId = "1";
         AuditLog auditLog = new();
 
@@ -35,38 +35,39 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
         userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value! ?? "1";
 
         var dbContext = eventData.Context;
-        if(dbContext is null)
+        if (dbContext is null)
         {
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
-        
-            foreach (var entry in dbContext.ChangeTracker.Entries<Entity>())
+
+        foreach (var entry in dbContext.ChangeTracker.Entries<Entity>())
+        {
+            if (entry.Entity is AuditLog || entry.Entity is not IAuditable)
             {
-                if (entry.Entity is AuditLog || entry.Entity is not IAuditable)
-                {
-                    continue;
-                }
-
-                if (entry.State == EntityState.Added)
-                {
-                    auditLog.CreatedAt = DateTime.UtcNow;
-                    auditLog.CreatedBy = userId;
-                    auditLog.EntityName = entry.Entity.GetType().Name;
-                }
-
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnEntities())
-                {
-                    foreach (var property in entry.Properties)
-                    {
-                        auditLog.OldValue = $"{property.Metadata.Name} - {property.CurrentValue}";
-                        auditLog.NewValue = $"{property.Metadata.Name} - {property.OriginalValue}";
-                    }
-                    auditLog.LastModifiedBy = userId;
-                    auditLog.LastModifiedAt = DateTime.UtcNow;
-                }
+                continue;
             }
 
-           dbContext.Set<AuditLog>().Add(auditLog);
+            if (entry.State == EntityState.Added)
+            {
+                auditLog.CreatedAt = DateTime.UtcNow;
+                auditLog.CreatedBy = userId;
+                auditLog.EntityName = entry.Entity.GetType().Name;
+            }
+
+            if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnEntities())
+            {
+                foreach (var property in entry.Properties)
+                {
+                    auditLog.OldValue = $"{property.Metadata.Name} - {property.CurrentValue}";
+                    auditLog.NewValue = $"{property.Metadata.Name} - {property.OriginalValue}";
+                }
+                auditLog.EntityName = entry.Entity.GetType().Name;
+                auditLog.LastModifiedBy = userId;
+                auditLog.LastModifiedAt = DateTime.UtcNow;
+            }
+        }
+
+        dbContext.Set<AuditLog>().Add(auditLog);
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
