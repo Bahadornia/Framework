@@ -5,7 +5,7 @@ namespace App.Framework.Contracts.Entities;
 public sealed class AuditLog: Entity
 {
     public int Id { get; set; }
-    public string EntityName { get; set; } = default!;
+    public string Entity { get; set; } = default!;
     public string? CreatedBy { get; set; }
     public DateTime? CreatedAt { get; set; }
     public string? LastModifiedBy { get; set; }

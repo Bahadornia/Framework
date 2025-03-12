@@ -51,7 +51,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
             {
                 auditLog.CreatedAt = DateTime.UtcNow;
                 auditLog.CreatedBy = userId;
-                auditLog.EntityName = entry.Entity.GetType().Name;
+                auditLog.Entity = entry.Entity.GetType().Name;
             }
 
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnEntities())
@@ -61,7 +61,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
                     auditLog.OldValue = $"{property.Metadata.Name} - {property.CurrentValue}";
                     auditLog.NewValue = $"{property.Metadata.Name} - {property.OriginalValue}";
                 }
-                auditLog.EntityName = entry.Entity.GetType().Name;
+                auditLog.Entity = entry.Entity.GetType().Name;
                 auditLog.LastModifiedBy = userId;
                 auditLog.LastModifiedAt = DateTime.UtcNow;
             }
