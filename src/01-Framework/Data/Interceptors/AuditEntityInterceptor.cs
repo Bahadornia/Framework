@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Text.Json;
@@ -26,6 +27,8 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
 
         string userId = "1";
         AuditLog auditLog = new();
+        IKey? primaryKey;
+
 
         //if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
         //{
@@ -46,22 +49,31 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
             {
                 continue;
             }
+            primaryKey = entry.Metadata.FindPrimaryKey();
 
+            if (primaryKey is not null)
+            {
+                auditLog.EntityId = (string)entry.Property(primaryKey.Properties[0].Name).CurrentValue!;
+            }
+            else
+            {
+                auditLog.EntityId = default!;
+            }
             if (entry.State == EntityState.Added)
             {
                 auditLog.CreatedAt = DateTime.UtcNow;
                 auditLog.CreatedBy = userId;
-                auditLog.Entity = entry.Entity.GetType().Name;
+                auditLog.EntityName = entry.Entity.GetType().Name;
             }
 
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnEntities())
             {
                 foreach (var property in entry.Properties)
                 {
-                    auditLog.OldValue = $"{property.Metadata.Name} - {property.CurrentValue}";
-                    auditLog.NewValue = $"{property.Metadata.Name} - {property.OriginalValue}";
+                    auditLog.OldValue = $"{property.Metadata.Name} - {property.OriginalValue}";
+                    auditLog.NewValue = $"{property.Metadata.Name} - {property.CurrentValue}";
                 }
-                auditLog.Entity = entry.Entity.GetType().Name;
+                auditLog.EntityName = entry.Entity.GetType().Name;
                 auditLog.LastModifiedBy = userId;
                 auditLog.LastModifiedAt = DateTime.UtcNow;
             }
