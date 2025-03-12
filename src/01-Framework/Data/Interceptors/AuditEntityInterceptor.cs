@@ -27,10 +27,10 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
         string userId = null;
         AuditLog auditLog = new();
 
-        if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
-        {
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
-        }
+        //if (_contextAccessor.HttpContext?.User.Identity?.IsAuthenticated == false)
+        //{
+        //    return base.SavingChangesAsync(eventData, result, cancellationToken);
+        //}
 
         userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
