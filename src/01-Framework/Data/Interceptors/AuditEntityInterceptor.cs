@@ -32,7 +32,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
         //    return base.SavingChangesAsync(eventData, result, cancellationToken);
         //}
 
-        userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+        userId = _contextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)?.Value! ?? default!;
 
         var dbContext = eventData.Context;
         if(dbContext is null)
