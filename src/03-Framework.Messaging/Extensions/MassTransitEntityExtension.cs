@@ -24,7 +24,7 @@ public static class MassTransitEntityExtension
         {
             config.SetKebabCaseEndpointNameFormatter();
 
-            config.SetInMemorySagaRepositoryProvider();
+            //config.SetInMemorySagaRepositoryProvider();
 
             config.AddConsumers(assemblies);
             config.AddSagaStateMachines(assemblies);
