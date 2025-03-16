@@ -11,8 +11,9 @@ public sealed class AuditLog: Entity
     public DateTime? CreatedAt { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedAt { get; set; }
-    public string? OldValue { get; set; } = default!;
-    public string? NewValue { get; set; } = default!;
-    public string? IPAddress { get; set; } = default!;
-    public string? Agent { get; set; } = default!;
+    public string? OldValue { get; set; }
+    public string? NewValue { get; set; }
+    public string? IPAddress { get; set; }
+    public string? Agent { get; set; }
+    public string? Action { get; set; }
 }
