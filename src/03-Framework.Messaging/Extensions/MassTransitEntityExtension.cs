@@ -27,9 +27,15 @@ public static class MassTransitEntityExtension
             //config.SetInMemorySagaRepositoryProvider();
 
             config.AddConsumers(assemblies);
-            config.AddSagaStateMachines(assemblies);
-            config.AddSagas(assemblies);
-            config.AddActivities(assemblies);
+            //config.AddSagaStateMachines(assemblies);
+            //config.AddSagas(assemblies);
+            //config.AddActivities(assemblies);
+
+            config.AddEntityFrameworkOutbox<TContext>(o =>
+            {
+                o.UseSqlServer();
+                o.UseBusOutbox();
+            });
 
             config.UsingRabbitMq((context, configurator) =>
             {
@@ -40,16 +46,11 @@ public static class MassTransitEntityExtension
                 });
                 configurator.ConfigureEndpoints(context);
                
-            });
-            config.AddEntityFrameworkOutbox<TContext>(o =>
-            {
-                o.UseSqlServer();
-                o.UseBusOutbox();
+            configurator.UseMessageRetry(r => r.Exponential(10, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(5)));
             });
             config.AddConfigureEndpointsCallback((context, name, cfg) =>
             {
                 cfg.UseEntityFrameworkOutbox<TContext>(context);
-                cfg.UseMessageRetry(r => r.Intervals(100, 500, 1000, 1000, 1000, 1000, 1000));
             });
 
         });
