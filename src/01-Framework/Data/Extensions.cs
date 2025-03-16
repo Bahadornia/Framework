@@ -23,7 +23,6 @@ public static class Extensions
         where T:AppDbContext
     {
         services.AddHttpContextAccessor();
-        services.AddScoped<ISaveChangesInterceptor, AuditEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
         services.AddDbContext<T>((sp, cfg) => 
         {
