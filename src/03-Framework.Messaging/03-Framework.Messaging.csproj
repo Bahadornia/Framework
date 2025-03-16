@@ -11,16 +11,13 @@
 		  <ContactEmail>babakbahadornia@gmail.com</ContactEmail>
 	  </PackageMetadata>
 	  <PackageIconUrl>./logo.png</PackageIconUrl>
-	  <Version>1.0.10</Version>
+	  <Version>1.0.11</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="App.Framework.Infra" Version="1.0.30" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.3.7" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\01-Framework\01-Framework.csproj" />
   </ItemGroup>
 
 </Project>
